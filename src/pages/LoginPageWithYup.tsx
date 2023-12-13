@@ -1,11 +1,13 @@
 import React from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { LoginForm, loginSchema } from './validations/LoginSchema';
+import { Button, ButtonGroup, FormControl, TextField } from '@mui/material';
 
 function LoginPageWithYup() {
 	const {
+		control,
 		handleSubmit,
 		register,
 		watch,
@@ -41,10 +43,32 @@ function LoginPageWithYup() {
 			<br></br>
 			{isValid ? 'Form Valid' : 'Form InValid'}
 			<form onSubmit={handleSubmit(onFormSubmit)}>
-				<input {...register('email')} placeholder="email" />
+				{/* <input {...register('email')} placeholder="email" /> */}
 
-				<span>{errors.email?.message}</span>
+				{/* <span>{errors.email?.message}</span>
+				<br></br> */}
+
+				<FormControl
+					sx={{ width: '25ch', marginBottom: '10px', marginTop: '10px' }}
+				>
+					<Controller
+						name="email" // ...register yapısı UI Integration işlemlerinde kullanılmıyor. name üzerinden input forma register ediliyor
+						control={control}
+						render={({ field }) => (
+							<TextField
+								{...field}
+								required
+								id="outlined-required"
+								label="Email"
+								defaultValue="test@test.com"
+							/>
+						)}
+					></Controller>
+					<span>{errors.email?.message}</span>
+				</FormControl>
+
 				<br></br>
+
 				<input
 					type="password"
 					{...register('password')}
@@ -52,6 +76,7 @@ function LoginPageWithYup() {
 				/>
 				<br></br>
 				<span>{errors.password?.message}</span>
+				<br></br>
 				<input
 					readOnly={true}
 					type="text"
@@ -59,16 +84,30 @@ function LoginPageWithYup() {
 					placeholder="Parola Tekrar"
 				/>
 				<br></br>
-				<input type="submit" value="Login" />
-				<input onClick={() => reset()} type="reset" value="Temizle" />
-				<button
+				{/* <input type="submit" value="Login" />
+				<input onClick={() => reset()} type="reset" value="Temizle" /> */}
+
+				<ButtonGroup variant="outlined" aria-label="outlined button group">
+					<Button type="submit">Login</Button>
+					<Button onClick={() => reset()}>Reset</Button>
+					<Button
+						onClick={() => {
+							const email = getValues('email'); // formdaki alanı okuruz
+							console.log('email1', email);
+						}}
+					>
+						Form State Get Value
+					</Button>
+				</ButtonGroup>
+
+				{/* <button
 					onClick={() => {
 						const email = getValues('email'); // formdaki alanı okuruz
 						console.log('email1', email);
 					}}
 				>
 					Form State Get Value
-				</button>
+				</button> */}
 			</form>
 		</div>
 	);
