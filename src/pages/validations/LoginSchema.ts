@@ -16,14 +16,15 @@ export const loginSchema = yup.object({
 		.lowercase()
 		.required('email boş geçilemez')
 		.email('e-posta formatında giriş yapılmalıdır'),
-	password: yup
-		.string()
-		.required('parola boş geçilemez')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/,
-			'Daha kompleks bir parola seçiniz. Minimum 8 karakter olmalıdır. Makisimum 15 karakter seçebilirsiniz'
-		),
-	passwordAgain: yup.string().required('Parola Tekrar'),
+	password: yup.string().required('parola boş geçilemez'),
+	// password: yup
+	// 	.string()
+	// 	.required('parola boş geçilemez')
+	// 	.matches(
+	// 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/,
+	// 		'Daha kompleks bir parola seçiniz. Minimum 8 karakter olmalıdır. Makisimum 15 karakter seçebilirsiniz'
+	// 	),
+	passwordAgain: yup.string(),
 });
 
 export type LoginForm = yup.InferType<typeof loginSchema>;
